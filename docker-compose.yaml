@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+
+  db-fonte:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: "post_fonte"
+      POSTGRES_PASSWORD: "12345"
+    volumes:
+      - ./api/db_fonte/data:/var/lib/postgresql/data
+
+  db-alvo:
+    image: postgres
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: "post_alvo"
+      POSTGRES_PASSWORD: "54321"
+    volumes:
+      - ./api/db_alvo/data:/var/lib/postgresql/data
