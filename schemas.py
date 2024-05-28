@@ -26,7 +26,7 @@ class Data(BaseModel):
     signal_id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class SignalListOutput(BaseModel):
@@ -35,4 +35,4 @@ class SignalListOutput(BaseModel):
     data: List[Data]
 
     class Config:
-        orm_mode = True
+        from_attributes = True

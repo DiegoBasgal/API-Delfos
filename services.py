@@ -21,8 +21,11 @@ class SignalService:
     async def list_signal():
         async with async_session() as session:
             result = await session.execute(select(Signal))
-            print(result.scalars().all())
-            return result.scalars().all()
+            signal = result.scalars().all()
+            for sig in signal:
+                result = await session.execute(select(Data).where(Data.signal_id==sig.id))
+                sig.data = result.scalars().all()
+            return signal
 
 
 class SignalDataService:
@@ -35,7 +38,3 @@ class SignalDataService:
         async with async_session() as session:
             await session.execute(delete(Data).where(Data.signal_id==signal_id, Data.value==value))
             await session.commit()
-
-
-# class AssetsService:
-#     async def 

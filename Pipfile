@@ -11,6 +11,10 @@ asyncpg = "*"
 databases = "*"
 pydantic = "*"
 httpx = "*"
+dagster = "*"
+dagit = "*"
+pandas = "*"
+psycopg2 = "*"
 
 [dev-packages]
 
