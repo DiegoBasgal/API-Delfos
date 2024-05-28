@@ -8,10 +8,11 @@ class Signal(Base):
     __tablename__ = 'signal'
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String)
-    datas = relationship('Data', backref='signal')
+    datas = relationship('Data', backref='signal', lazy='subquery')
 
 class Data(Base):
     __tablename__ = 'data'
-    timestamp = Column(DateTime, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    timestamp = Column(DateTime)
     value = Column(DECIMAL)
     signal_id = Column(Integer, ForeignKey('signal.id'))

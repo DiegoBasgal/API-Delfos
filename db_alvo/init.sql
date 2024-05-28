@@ -25,13 +25,36 @@ SET default_table_access_method = heap;
 --
 
 CREATE TABLE public.data (
-    "timestamp" timestamp without time zone NOT NULL,
+    id integer NOT NULL,
+    "timestamp" timestamp without time zone,
     value numeric,
     signal_id integer
 );
 
 
 ALTER TABLE public.data OWNER TO admin;
+
+--
+-- Name: data_id_seq; Type: SEQUENCE; Schema: public; Owner: admin
+--
+
+CREATE SEQUENCE public.data_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.data_id_seq OWNER TO admin;
+
+--
+-- Name: data_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
+--
+
+ALTER SEQUENCE public.data_id_seq OWNED BY public.data.id;
+
 
 --
 -- Name: signal; Type: TABLE; Schema: public; Owner: admin
@@ -68,6 +91,13 @@ ALTER SEQUENCE public.signal_id_seq OWNED BY public.signal.id;
 
 
 --
+-- Name: data id; Type: DEFAULT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.data ALTER COLUMN id SET DEFAULT nextval('public.data_id_seq'::regclass);
+
+
+--
 -- Name: signal id; Type: DEFAULT; Schema: public; Owner: admin
 --
 
@@ -78,7 +108,7 @@ ALTER TABLE ONLY public.signal ALTER COLUMN id SET DEFAULT nextval('public.signa
 -- Data for Name: data; Type: TABLE DATA; Schema: public; Owner: admin
 --
 
-COPY public.data ("timestamp", value, signal_id) FROM stdin;
+COPY public.data (id, "timestamp", value, signal_id) FROM stdin;
 \.
 
 
@@ -88,6 +118,13 @@ COPY public.data ("timestamp", value, signal_id) FROM stdin;
 
 COPY public.signal (id, name) FROM stdin;
 \.
+
+
+--
+-- Name: data_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
+--
+
+SELECT pg_catalog.setval('public.data_id_seq', 1, false);
 
 
 --
@@ -102,7 +139,7 @@ SELECT pg_catalog.setval('public.signal_id_seq', 1, false);
 --
 
 ALTER TABLE ONLY public.data
-    ADD CONSTRAINT data_pkey PRIMARY KEY ("timestamp");
+    ADD CONSTRAINT data_pkey PRIMARY KEY (id);
 
 
 --

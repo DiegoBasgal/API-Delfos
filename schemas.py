@@ -1,5 +1,6 @@
 from datetime import datetime
 from pydantic import BaseModel
+from typing import List
 
 
 class SignalCreateInput(BaseModel):
@@ -16,3 +17,22 @@ class ReturnMessage(BaseModel):
 
 class ErrorMessage(ReturnMessage):
     detail: str
+
+
+class Data(BaseModel):
+    id: int
+    timestamp: datetime
+    value: float
+    signal_id: int
+
+    class Config:
+        orm_mode = True
+
+
+class SignalListOutput(BaseModel):
+    id: int
+    name: str
+    data: List[Data]
+
+    class Config:
+        orm_mode = True

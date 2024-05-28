@@ -1,9 +1,10 @@
+from httpx import Client
 from datetime import datetime
+from sqlalchemy import delete
+from sqlalchemy.future import select
 
 from db_alvo.models import Signal, Data
 from db_alvo.connector import async_session
-
-from sqlalchemy import delete
 
 
 class SignalService:
@@ -16,10 +17,25 @@ class SignalService:
         async with async_session() as session:
             await session.execute(delete(Signal).where(Signal.id==signal_id))
             await session.commit()
+    
+    async def list_signal():
+        async with async_session() as session:
+            result = await session.execute(select(Signal))
+            print(result.scalars().all())
+            return result.scalars().all()
 
 
 class SignalDataService:
     async def add_data(timestamp: datetime, value: float, signal_id: int):
         async with async_session() as session:
-            await session.add(Data(timestamp=timestamp, value=value, signal_id=signal_id))
+            session.add(Data(timestamp=datetime.now(), value=value, signal_id=signal_id))
             await session.commit()
+
+    async def remove_data(signal_id: int, value: float):
+        async with async_session() as session:
+            await session.execute(delete(Data).where(Data.signal_id==signal_id, Data.value==value))
+            await session.commit()
+
+
+# class AssetsService:
+#     async def 
