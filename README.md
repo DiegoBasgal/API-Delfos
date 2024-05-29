@@ -15,6 +15,7 @@ Obs.: A implementação foi realizada no Windows, logo para executar em linux, p
 2) Após subir as imagens do Docker, será necessário iniciar o ambiente virtual do Pipenv. Para isso executamos os seguintes comandos:
 
    **pipenv shell**
+   
    **pipenv update**
 
    Obs.: O pipenv já baixa todas as dependências citadas dentro do arquivo: **Pipfile**
