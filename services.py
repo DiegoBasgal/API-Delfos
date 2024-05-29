@@ -10,6 +10,7 @@ from db_alvo.connector import async_session
 class SignalService:
     async def create_signal(name: str):
         async with async_session() as session:
+            print(name)
             session.add(Signal(name=name))
             await session.commit()
 
@@ -17,7 +18,7 @@ class SignalService:
         async with async_session() as session:
             await session.execute(delete(Signal).where(Signal.id==signal_id))
             await session.commit()
-    
+
     async def list_signal():
         async with async_session() as session:
             result = await session.execute(select(Signal))
@@ -31,6 +32,7 @@ class SignalService:
 class SignalDataService:
     async def add_data(timestamp: datetime, value: float, signal_id: int):
         async with async_session() as session:
+            print(timestamp, value, signal_id)
             session.add(Data(timestamp=datetime.now(), value=value, signal_id=signal_id))
             await session.commit()
 
